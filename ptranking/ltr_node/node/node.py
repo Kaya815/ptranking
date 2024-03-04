@@ -27,11 +27,17 @@ from ptranking.ltr_node.node.base.utils import get_latest_file, iterate_minibatc
 from ptranking.ltr_node.node.base.nn_utils import to_one_hot, entmax15, entmoid15, Lambda
 from ptranking.ltr_global import ltr_seed
 
+"""Description
+Popov, S., Morozov, S., Babenko, A.: Neural oblivious decision ensembles for deep
+learning on tabular data. CoRR abs/1909.06312 (2019).
+"""
 
 class node(NeuralRanker):
-    '''
+    """Description
+    Popov, S., Morozov, S., Babenko, A.: Neural oblivious decision ensembles for deep
+    learning on tabular data. CoRR abs/1909.06312 (2019).
+    """
 
-    '''
 
     def __init__(self,  sf_para_dict =None,model_para_dict=None, gpu=False, device=None, **kwargs):
         super(node, self).__init__(id='node', sf_para_dict=sf_para_dict,

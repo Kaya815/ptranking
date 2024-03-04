@@ -210,7 +210,7 @@ class GFLULTREvaluator(LTREvaluator):
         vali_k, log_step, cutoffs = eval_dict['vali_k'], eval_dict['log_step'], eval_dict['cutoffs']
         do_vali, vali_metric, do_summary = eval_dict['do_validation'], eval_dict['vali_metric'], eval_dict['do_summary']
         cv_tape = CVTape(model_id=model_id, fold_num=fold_num, cutoffs=cutoffs, do_validation=do_vali)
-        for fold_k in range(1, fold_num + 1):  # evaluation over k-fold data
+        for fold_k in range(1, fold_num + 1):  # evaluation over k-fold
             ranker.init()  # initialize or reset with the same random initialization
 
             train_data, test_data, vali_data = self.load_data(eval_dict, data_dict, fold_k)

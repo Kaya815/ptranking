@@ -12,6 +12,10 @@ from ptranking.data.data_utils import MSLETOR_SEMI, MSLETOR_LIST
 from ptranking.ltr_node.node.node import node,nodeParameter
 from ptranking.ltr_adhoc.eval.parameter import ValidationTape, CVTape, SummaryTape, OptLossTape
 LTR_NeuralTree_MODEL = ['node']
+"""Description
+Popov, S., Morozov, S., Babenko, A.: Neural oblivious decision ensembles for deep
+learning on tabular data. CoRR abs/1909.06312 (2019).
+"""
 
 
 class NeuralDecisionEnsemblesLTREvaluator(LTREvaluator):

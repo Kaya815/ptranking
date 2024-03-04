@@ -2,7 +2,7 @@
   "BT":["gbdt"],
   "metric":["ndcg"],
   "leaves":[20000],
-  "num_iterations":[1000],
+  "num_iterations":[1000 ],
   "MiData":[0],
   "MSH":[50],
   "LR":[0.001],

@@ -11,6 +11,12 @@ from pytorch_tabular.utils import get_logger
 from ptranking.ltr_gandalf.gandalf.base.GFLU import entmax15, RSoftmax
 
 logger = get_logger(__name__)
+
+"""Description
+Joseph, M., Raj, H.: Gandalf: Gated adaptive network for deep automated learning of features. 
+arXiv:2207.08548 [cs.LG]  (2022).
+"""
+
 def t_softmax(input: Tensor, t: Tensor = None, dim: int = -1) -> Tensor:
     if t is None:
         t = torch.tensor(0.5, device=input.device)

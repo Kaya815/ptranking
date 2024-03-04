@@ -25,7 +25,10 @@ from ptranking.ltr_adhoc.util.lambda_utils import get_pairwise_comp_probs
 from ptranking.ltr_node.node.base.nn_utils import entmax15, entmoid15
 
 
-
+"""Description
+Joseph, M., Raj, H.: Gandalf: Gated adaptive network for deep automated learning of features. 
+arXiv:2207.08548 [cs.LG]  (2022).
+"""
 
 
 class gandalf(NeuralRanker):

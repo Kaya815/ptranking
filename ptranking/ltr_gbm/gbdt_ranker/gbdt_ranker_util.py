@@ -10,18 +10,12 @@ from ptranking.ltr_adhoc.util.lambda_utils import get_pairwise_comp_probs
 
 
 def nDCG_metric(yhat, y, sample_weight=None, device="cpu", **kwargs):
-    # print('yhat', yhat)
     head = 0
     cnt = 0
 
     sum_ndcg_at_k = torch.zeros(1).to(device)
-    # group = group.astype(np.int).tolist()
-    # print('group', group.shape[0])
-    # print('y', y.size())
-    # for gr in group:
     group = kwargs['group']
     for i in range(group.shape[0]):
-        # print('gr ==')
         gr = int(group[i])
         tor_per_query_std_labels = y[head:head + gr]
         tor_per_query_preds = yhat[head:head + gr]
@@ -41,8 +35,7 @@ def nDCG_metric(yhat, y, sample_weight=None, device="cpu", **kwargs):
         cnt += 1
 
     avg_ndcg_at_k = sum_ndcg_at_k / cnt
-    # print('avg_ndcg_at_k', avg_ndcg_at_k.size())
-    # return avg_ndcg_at_k.numpy()
+
     return avg_ndcg_at_k.item()
 
 def loss_function(batch_preds, batch_std_labels,device):

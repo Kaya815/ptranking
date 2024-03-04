@@ -25,6 +25,10 @@ from ptranking.ltr_ntree.tabnet.base import tab_network
 
 from ptranking.ltr_global import ltr_seed
 
+"""Description
+Joseph, M., Raj, H.: Gandalf: Gated adaptive network for deep automated learning of features. 
+arXiv:2207.08548 [cs.LG]  (2022).
+"""
 
 class TabNet(NeuralRanker):
     '''
