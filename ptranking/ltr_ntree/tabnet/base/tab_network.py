@@ -3,7 +3,7 @@ from torch.nn import Linear, BatchNorm1d, ReLU
 import numpy as np
 
 #from pytorch_tabnet import sparsemax
-from ptranking.ltr_ntree.ltr_tabnet.tabnet.base import sparsemax
+from ptranking.ltr_ntree.tabnet.base import sparsemax
 
 
 def initialize_non_glu(module, input_dim, output_dim):

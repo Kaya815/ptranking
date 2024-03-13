@@ -21,9 +21,9 @@ from itertools import product
 from ptranking.base.ranker import NeuralRanker
 from ptranking.ltr_adhoc.eval.parameter import ModelParameter
 from ptranking.ltr_adhoc.util.lambda_utils import get_pairwise_comp_probs
-from ptranking.ltr_ntree.ltr_node import DenseBlock
+from ptranking.ltr_ntree.node.base.arch import DenseBlock
 
-from ptranking.ltr_ntree.ltr_node import to_one_hot, entmax15, entmoid15, Lambda
+from ptranking.ltr_ntree.node.base.nn_utils import to_one_hot, entmax15, entmoid15, Lambda
 from ptranking.ltr_global import ltr_seed
 
 """Description

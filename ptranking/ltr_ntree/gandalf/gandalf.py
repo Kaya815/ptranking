@@ -8,8 +8,8 @@ import os
 
 from torch import nn
 
-from ptranking.ltr_ntree.ltr_gandalf.gandalf.base.GFLU import Add
-from ptranking.ltr_ntree.ltr_gandalf.gandalf.base.gandalf import GANDALFBackbone
+from ptranking.ltr_ntree.gandalf.base.GFLU import Add
+from ptranking.ltr_ntree.gandalf.base.gandalf import GANDALFBackbone
 
 os.environ['KMP_DUPLICATE_LIB_OK'] = 'True'
 import torch
@@ -22,7 +22,7 @@ from ptranking.metric.metric_utils import get_delta_ndcg
 from ptranking.base.ranker import NeuralRanker
 from ptranking.ltr_adhoc.eval.parameter import ModelParameter
 from ptranking.ltr_adhoc.util.lambda_utils import get_pairwise_comp_probs
-from ptranking.ltr_ntree.ltr_node import entmax15
+from ptranking.ltr_ntree.node.base.nn_utils import entmax15
 
 """Description
 Joseph, M., Raj, H.: Gandalf: Gated adaptive network for deep automated learning of features. 
