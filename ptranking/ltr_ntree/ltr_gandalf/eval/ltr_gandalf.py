@@ -9,7 +9,6 @@ from ptranking.metric.metric_utils import metric_results_to_string
 from ptranking.base.ranker import LTRFRAME_TYPE
 from ptranking.ltr_adhoc.eval.ltr import LTREvaluator
 from ptranking.data.data_utils import MSLETOR_SEMI, MSLETOR_LIST
-from ptranking.ltr_gandalf.gandalf.gandalf import gandalf,gandalfParameter
 from ptranking.ltr_adhoc.eval.parameter import ValidationTape, CVTape, SummaryTape, OptLossTape
 LTR_NeuralTree_MODEL = ['gandalf']
 

@@ -8,7 +8,7 @@ from pytorch_tabular.models.common.layers import Embedding1dLayer
 from torch import Tensor
 from pytorch_tabular.utils import get_logger
 
-from ptranking.ltr_gandalf.gandalf.base.GFLU import entmax15, RSoftmax
+from ptranking.ltr_ntree.ltr_gandalf.gandalf.base.GFLU import entmax15, RSoftmax
 
 logger = get_logger(__name__)
 

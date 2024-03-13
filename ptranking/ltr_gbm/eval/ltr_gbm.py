@@ -257,12 +257,10 @@ class GBMLTREvaluator(LTREvaluator):
         2> better understanding the in-built validation of pgbm
         '''
         self.display_information(data_dict, gb_para_dict)
-        #self.check_consistency(data_dict, eval_dict, sf_para_dict)
         self.setup_eval(data_dict, eval_dict, sf_para_dict, gb_para_dict)
 
         model_id = gb_para_dict['model_id']
         fold_num, label_type, max_label = data_dict['fold_num'], data_dict['label_type'], data_dict['max_rele_level']
-        # TODO-update
         train_presort, validation_presort, test_presort = \
             data_dict['train_presort'], data_dict['validation_presort'], data_dict['test_presort']
         # for quick access of common evaluation settings

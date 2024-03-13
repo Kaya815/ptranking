@@ -3,23 +3,26 @@
 import os
 import sys
 import datetime
-from matplotlib import pyplot as plt
+import torch
 import numpy as np
 from ptranking.metric.metric_utils import metric_results_to_string
 from ptranking.base.ranker import LTRFRAME_TYPE
 from ptranking.ltr_adhoc.eval.ltr import LTREvaluator
 from ptranking.data.data_utils import MSLETOR_SEMI, MSLETOR_LIST
 from ptranking.ltr_adhoc.eval.parameter import ValidationTape, CVTape, SummaryTape, OptLossTape
-from ptranking.ltr_ntree.tabnet.tabnet import TabNet,TabNetParameter
-LTR_NeuralTree_MODEL = ['TabNet']
+LTR_NeuralTree_MODEL = ['node']
+"""Description
+Popov, S., Morozov, S., Babenko, A.: Neural oblivious decision ensembles for deep
+learning on tabular data. CoRR abs/1909.06312 (2019).
+"""
 
 
-class NeuralTreeLTREvaluator(LTREvaluator):
+class NeuralDecisionEnsemblesLTREvaluator(LTREvaluator):
     """
     The class for evaluating different neural-tree-based learning to rank methods.
     """
     def __init__(self, frame_id=LTRFRAME_TYPE.Probabilistic, cuda=None):
-        super(NeuralTreeLTREvaluator, self).__init__(frame_id=frame_id, cuda=cuda)
+        super(NeuralDecisionEnsemblesLTREvaluator, self).__init__(frame_id=frame_id, cuda=cuda)
 
     def check_consistency(self, data_dict, eval_dict):
         """
@@ -113,7 +116,9 @@ class NeuralTreeLTREvaluator(LTREvaluator):
         # num_features=data_dict['num_features']
         self.dir_run = self.setup_output(data_dict, eval_dict)
 
+
         if eval_dict['do_log'] and not self.eval_setting.debug:
+
             time_str = datetime.datetime.now().strftime("%Y_%m_%d_%H_%M")
             sys.stdout = open(self.dir_run + '_'.join(['log', time_str]) + '.txt', "w")
 
@@ -131,7 +136,7 @@ class NeuralTreeLTREvaluator(LTREvaluator):
         :param model_id:
         :return:
         """
-        if model_id in ['TabNet']:
+        if model_id in ['node']:
             if dir_json is not None:
                 para_json = dir_json + model_id + "Parameter.json"
                 self.model_parameter = globals()[model_id + "Parameter"](para_json=para_json)
@@ -150,7 +155,7 @@ class NeuralTreeLTREvaluator(LTREvaluator):
         """
         model_id = model_para_dict['model_id']
 
-        if model_id in ['TabNet']:
+        if model_id in ['node']:
             sf_para_dict = dict(sf_id=None, opt='Adam', lr=None)
             ranker = globals()[model_id](sf_para_dict=sf_para_dict, model_para_dict=model_para_dict, gpu=self.gpu,
                                          device=self.device)
@@ -210,7 +215,7 @@ class NeuralTreeLTREvaluator(LTREvaluator):
         cv_tape = CVTape(model_id=model_id, fold_num=fold_num, cutoffs=cutoffs, do_validation=do_vali)
         for fold_k in range(1, fold_num + 1):  # evaluation over k-fold data
             # TODO to be checked?
-            ranker.init()  # initialize or reset with the same random initialization
+             # initialize or reset with the same random initialization
 
             train_data, test_data, vali_data = self.load_data(eval_dict, data_dict, fold_k)
 
@@ -237,6 +242,7 @@ class NeuralTreeLTREvaluator(LTREvaluator):
                                                                     vali_metric=vali_metric, label_type=label_type,
                                                                     max_label=max_label, presort=validation_presort)
                         vali_metric_value = torch_vali_metric_value.squeeze(-1).data.numpy()
+
                         vali_tape.epoch_validation(ranker=ranker, epoch_k=epoch_k, metric_value=vali_metric_value)
                     if do_summary:  # summarize per-step performance w.r.t. train, test
                         summary_tape.epoch_summary(ranker=ranker, torch_epoch_k_loss=torch_fold_k_epoch_k_loss,
@@ -246,6 +252,7 @@ class NeuralTreeLTREvaluator(LTREvaluator):
                     early_stopping = opt_loss_tape.epoch_cmp_loss(fold_k=fold_k, epoch_k=epoch_k,
                                                                   torch_epoch_k_loss=torch_fold_k_epoch_k_loss)
                     if early_stopping: break
+
 
             if do_summary:  # track
                 summary_tape.fold_summary(fold_k=fold_k, dir_run=self.dir_run, train_data_length=train_data.__len__())
@@ -258,9 +265,14 @@ class NeuralTreeLTREvaluator(LTREvaluator):
                 ranker.save(dir=self.dir_run + fold_optimal_checkpoint + '/',
                             name='_'.join(['net_params_epoch', str(epoch_k)]) + '.pkl')
 
-            cv_tape.fold_evaluation(model_id=model_id, ranker=ranker, test_data=test_data, max_label=max_label,
-                                    fold_k=fold_k)
+            with torch.no_grad():
+                cv_tape.fold_evaluation(model_id=model_id, ranker=ranker, test_data=test_data, max_label=max_label,
+                                        fold_k=fold_k)
+            ranker.init()
         ndcg_cv_avg_scores = cv_tape.get_cv_performance()
+
+
+
         return ndcg_cv_avg_scores
 
         # if log_explanatory_diagram:

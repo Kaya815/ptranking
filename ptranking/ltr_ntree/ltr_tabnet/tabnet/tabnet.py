@@ -21,7 +21,7 @@ from ptranking.metric.metric_utils import get_delta_ndcg
 from ptranking.base.ranker import NeuralRanker
 from ptranking.ltr_adhoc.eval.parameter import ModelParameter
 from ptranking.ltr_adhoc.util.lambda_utils import get_pairwise_comp_probs
-from ptranking.ltr_ntree.tabnet.base import tab_network
+from ptranking.ltr_ntree.ltr_tabnet.tabnet.base import tab_network
 
 from ptranking.ltr_global import ltr_seed
 

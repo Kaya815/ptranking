@@ -17,7 +17,7 @@ def _leaf_prediction_gbdt(gradient: torch.Tensor, hessian: torch.Tensor, node: t
     gradient_sum = gradient.sum()
     hessian_sum = hessian.sum()
 
-    # TODO-note: negative symbol (according to the GBDT-related equation)
+
     mu = -gradient_sum / (hessian_sum + reg_lambda)
 
     # Save optimal prediction and node information
@@ -35,7 +35,6 @@ def _leaf_prediction_mu_gbdt(gradient: torch.Tensor, hessian: torch.Tensor, reg_
     gradient_sum = gradient.sum()
     hessian_sum = hessian.sum()
 
-    # TODO-note: negative symbol (according to the GBDT-related equation)?
     mu = -gradient_sum / (hessian_sum + reg_lambda)
     return mu
 

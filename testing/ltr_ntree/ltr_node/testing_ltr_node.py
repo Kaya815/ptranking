@@ -9,8 +9,7 @@ import os
 
 import numpy as np
 
-import ptranking.ltr_node.eval.ltr_node
-from ptranking.ltr_gandalf.eval.ltr_gandalf import GFLULTREvaluator
+import ptranking.ltr_ntree.ltr_node.eval.ltr_node
 from ptranking.ltr_global import ltr_seed
 
 os.environ['KMP_DUPLICATE_LIB_OK'] = 'True'
@@ -40,7 +39,7 @@ if __name__ == '__main__':
 
     """
 
-    cuda = 0  # the gpu id, e.g., 0 or 1, otherwise, set it as None indicating to use cpu
+    cuda = 1  # the gpu id, e.g., 0 or 1, otherwise, set it as None indicating to use cpu
     # cuda = 1
     debug = False  # in a debug mode, we just check whether the model can operate
 
@@ -64,12 +63,12 @@ if __name__ == '__main__':
         # 'ExpectedUtility',
         # 'DASALC',
         # 'HistogramAP',
-        #'node',
-        'gandalf'
+        'node',
         # 'TwinRank'
     ]
 
-    evaluator = GFLULTREvaluator(cuda=cuda)
+    evaluator = ptranking.ltr_ntree.ltr_node.eval.ltr_node.NeuralDecisionEnsemblesLTREvaluator(cuda=cuda)
+
 
     if config_with_json:  # specify configuration with json files
         # the directory of json files
@@ -80,7 +79,7 @@ if __name__ == '__main__':
         # dir_json = '/Users/solar/WorkBench/II-Research Dropbox/Hai-Tao Yu/CodeBench/GitPool/json/solar/'
         # dir_json = '/Users/iimac/II-Research Dropbox/Hai-Tao Yu/CodeBench/GitPool/json/iimac/'
         # dir_json = '/Users/iilab/PycharmProjects/ptranking/ptranking/ltr_ntree/eval/json/'
-        dir_json = '/home/user/Workbench/tan_haonan/test/testing/ltr_gandalf/json/'
+        dir_json = '/home/user/Workbench/tan_haonan/test/testing/ltr_ntree/ltr_node/json/'
 
         # test_bt_bn_opt
         # dir_json = '/home/user/T2_Workbench/ExperimentBench/test_bt_bn_opt/'
