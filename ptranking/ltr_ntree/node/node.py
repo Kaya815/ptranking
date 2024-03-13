@@ -8,7 +8,9 @@ import os
 
 from torch import nn
 
+from ptranking.data.data_utils import LABEL_TYPE
 from ptranking.ltr_adhoc.pointwise.rank_mse import rankMSE_loss_function
+from ptranking.metric.metric_utils import get_delta_ndcg
 
 os.environ['KMP_DUPLICATE_LIB_OK'] = 'True'
 import torch
@@ -28,18 +30,18 @@ from ptranking.ltr_global import ltr_seed
 
 """Description
 Popov, S., Morozov, S., Babenko, A.: Neural oblivious decision ensembles for deep
-learning on tabular data. CoRR abs/1909.06312 (2019).
+learning on tabular data. International Conference on Learning Representations (ICLR). (2020).
 """
 
-class node(NeuralRanker):
+class NODE(NeuralRanker):
     """Description
     Popov, S., Morozov, S., Babenko, A.: Neural oblivious decision ensembles for deep
-    learning on tabular data. CoRR abs/1909.06312 (2019).
+    learning on tabular data.International Conference on Learning Representations (ICLR). (2020).
     """
 
 
     def __init__(self,  sf_para_dict =None,model_para_dict=None, gpu=False, device=None, **kwargs):
-        super(node, self).__init__(id='node', sf_para_dict=sf_para_dict,
+        super(NODE, self).__init__(id='NODE', sf_para_dict=sf_para_dict,
                                       gpu=gpu, device=device)
         tesorlist = []
         self.model_para_dict = model_para_dict
@@ -54,8 +56,6 @@ class node(NeuralRanker):
         num_layers = self.model_para_dict['num_layers']
         tree_dim = self.model_para_dict['tree_dim']
         depth = self.model_para_dict['depth']
-        choice_function = self.model_para_dict['choice_function']
-        bin_function = self.model_para_dict['bin_function']
         self.stop_check_freq = 1
 
 
@@ -66,11 +66,6 @@ class node(NeuralRanker):
                                    Lambda(lambda x: x[..., 0].mean(dim=-1)),  # average first channels of every tree
                                    ).to(self.device)
         self.config_optimizer()
-    def init(self):
-        for tensor in list(self.model.parameters()):
-            del tensor
-
-
 
 
     def get_parameters(self):
@@ -129,19 +124,8 @@ class node(NeuralRanker):
         X = batch_q_doc_vectors.view(-1, num_features)
         # compute model output
         scores = self.model(X)
-
-
-
-        """
-        if isinstance(scores, list):
-            scores = [x.cpu().detach().numpy() for x in scores]
-        else:
-            scores = scores.cpu().detach().numpy()
-        """
-
         batch_preds = scores.view(-1, num_docs)  # [batch_size x num_docs, 1] -> [batch_size, num_docs]
         return batch_preds
-        ### node
 
 
     def custom_loss_function(self, batch_preds, batch_std_labels, **kwargs):
@@ -150,6 +134,7 @@ class node(NeuralRanker):
         @param batch_std_labels: [batch, ranking_size] each row represents the standard relevance grades for documents associated with the same query
         @param kwargs:
         @return:
+        '''
 
         assert 'label_type' in kwargs and LABEL_TYPE.MultiLabel == kwargs['label_type']
         label_type = kwargs['label_type']
@@ -178,23 +163,10 @@ class node(NeuralRanker):
 
         self.optimizer.zero_grad()
         batch_loss.backward(retain_graph = False)
-        print(torch.cuda.memory_allocated('cuda:0') / 1024 ** 2, 'MB')  # 显示已分配的显存量
-        print(torch.cuda.memory_cached('cuda:0') / 1024 ** 2, 'MB')  # 显示缓存的显存量
-
         self.optimizer.step()
-         '''
-        batch_loss = rankMSE_loss_function(batch_preds, batch_std_labels)
-
-        self.optimizer.zero_grad()
-        a=torch.cuda.memory_allocated('cuda:1')/ 1024 ** 2
-        batch_loss.backward()
-        b=torch.cuda.memory_allocated('cuda:1')/ 1024 ** 2
-        # 显示缓存的显存量
-        self.optimizer.step()
-        np_batch_loss = batch_loss.detach().cpu().numpy()
 
 
-        return np_batch_loss
+        return batch_loss
 
 
 
@@ -213,11 +185,11 @@ class node(NeuralRanker):
 
 ###### Parameter of node ######
 
-class nodeParameter(ModelParameter):
+class NODEParameter(ModelParameter):
     ''' Parameter class for node '''
 
     def __init__(self, debug=False, para_json=None):
-        super(nodeParameter, self).__init__(model_id='node', para_json=para_json)
+        super(NODEParameter, self).__init__(model_id='NODE', para_json=para_json)
         self.node_para_dict = None
         self.debug = debug
 

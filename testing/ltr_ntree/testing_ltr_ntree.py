@@ -23,7 +23,9 @@ if __name__ == '__main__':
 
     (3) Tree-based Model
     -----------------------------------------------------------------------------------------
-    | LightGBMLambdaMART                                                                    |
+    TabNet
+    NODE
+    GANDALF                                                             |
     -----------------------------------------------------------------------------------------
 
     >>> Supported Datasets <<<
@@ -39,7 +41,7 @@ if __name__ == '__main__':
 
     """
 
-    cuda = 0  # the gpu id, e.g., 0 or 1, otherwise, set it as None indicating to use cpu
+    cuda = 1  # the gpu id, e.g., 0 or 1, otherwise, set it as None indicating to use cpu
     # cuda = 1
     debug = False  # in a debug mode, we just check whether the model can operate
 
@@ -49,8 +51,8 @@ if __name__ == '__main__':
 
     models_to_run = [
          #'TabNet',
-        #'node',
-        'gandalf'
+        'NODE',
+        #'GANDALF'
     ]
 
     evaluator = NeuralTreeLTREvaluator(cuda=cuda)

@@ -1,8 +1,8 @@
 {
-  "layer_dim":[512],
-  "num_layers":[2,3,4],
+  "layer_dim":[8],
+  "num_layers":[2],
   "tree_dim":[2],
-  "depth":[6,8],
+  "depth":[6],
   "choice_function": ["entmax15"],
   "bin_function": ["entmoid15"],
   "sigma": [1.0],

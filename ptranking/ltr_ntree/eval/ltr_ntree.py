@@ -6,8 +6,8 @@ import sys
 
 import numpy as np
 from ptranking.ltr_ntree.tabnet.tabnet import TabNetParameter,TabNet
-from ptranking.ltr_ntree.node.node import node,nodeParameter
-from ptranking.ltr_ntree.gandalf.gandalf import gandalf,gandalfParameter
+from ptranking.ltr_ntree.node.node import NODE,NODEParameter
+from ptranking.ltr_ntree.gandalf.gandalf import GANDALF,GANDALFParameter
 from ptranking.base.ranker import LTRFRAME_TYPE
 from ptranking.data.data_utils import MSLETOR_SEMI, MSLETOR_LIST
 from ptranking.ltr_adhoc.eval.ltr import LTREvaluator
@@ -132,7 +132,7 @@ class NeuralTreeLTREvaluator(LTREvaluator):
         :param model_id:
         :return:
         """
-        if model_id in ['TabNet','gandalf','node']:
+        if model_id in ['TabNet','GANDALF','NODE']:
             if dir_json is not None:
                 para_json = dir_json + model_id + "Parameter.json"
                 self.model_parameter = globals()[model_id + "Parameter"](para_json=para_json)
@@ -151,7 +151,7 @@ class NeuralTreeLTREvaluator(LTREvaluator):
         """
         model_id = model_para_dict['model_id']
 
-        if model_id in ['TabNet','gandalf','node']:
+        if model_id in ['TabNet','GANDALF','NODE']:
             sf_para_dict = dict(sf_id=None, opt='Adam', lr=None)
             ranker = globals()[model_id](sf_para_dict=sf_para_dict, model_para_dict=model_para_dict, gpu=self.gpu,
                                          device=self.device)

@@ -13,7 +13,7 @@
 
   "EvalSetting": {
    "dir_output":"/data/yang_kaiyu/pt_output/Istella22/",
-    "epochs":100,
+    "epochs":5,
 
     "do_validation":true,
 
@@ -23,8 +23,8 @@
 
 
     "loss_guided":false,
-    "do_log":true,
-    "log_step":4,
+    "do_log":false,
+    "log_step":1,
     "do_summary":false,
 
     "mask":{

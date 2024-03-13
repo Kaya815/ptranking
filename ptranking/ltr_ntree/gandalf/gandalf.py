@@ -30,9 +30,9 @@ arXiv:2207.08548 [cs.LG]  (2022).
 """
 
 
-class gandalf(NeuralRanker):
+class GANDALF(NeuralRanker):
     def __init__(self, sf_para_dict =None,model_para_dict=None, gpu=False, device=None, **kwargs):
-        super(gandalf, self).__init__(id='gandalf', sf_para_dict=sf_para_dict,
+        super(GANDALF, self).__init__(id='GANDALF', sf_para_dict=sf_para_dict,
                                      gpu=gpu, device=device)
         self.model_para_dict = model_para_dict
         self.device = device
@@ -197,11 +197,11 @@ class gandalf(NeuralRanker):
 
 ###### Parameter of gandalf ######
 
-class gandalfParameter(ModelParameter):
+class GANDALFParameter(ModelParameter):
     ''' Parameter class for gandalf '''
 
     def __init__(self, debug=False, para_json=None):
-        super(gandalfParameter, self).__init__(model_id='gandalf', para_json=para_json)
+        super(GANDALFParameter, self).__init__(model_id='GANDALF', para_json=para_json)
         self.gandalf_para_dict = None
         self.debug = debug
 
